@@ -30,8 +30,8 @@ jobs:
       - name: Upload /build for deploy job
         uses: actions/upload-pages-artifact@v1.0.5
         with:
-          name: dist
-          path: dist
+          name: build
+          path: build
   deploy:
     name: Deploy
     needs: build
