@@ -1,0 +1,47 @@
+name: Deploy to GH Pages Hosting on merge
+
+on:
+  push: branches:[main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: prod
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js Enviroment
+        uses: actions/setup-node@3
+        with:
+          node-version: 18
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Installl dependencies
+        run: npm install
+      - name: Setup enviroment variables
+        run: env
+      - name: Build app
+        run: pnpm build
+      - name: Upload /build for deploy job
+        uses: actions/upload-pages-artifact
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    enviroment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
