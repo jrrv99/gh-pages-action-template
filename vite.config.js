@@ -8,4 +8,5 @@ export default defineConfig({
   build: {
     outDir: "build",
   },
+  publicDir: "/gh-pages-action-template/public",
 });
