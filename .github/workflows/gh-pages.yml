@@ -28,7 +28,7 @@ jobs:
       - name: Build app
         run: pnpm build
       - name: Upload /build for deploy job
-        uses: actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v1.0.5
         with:
           name: dist
           path: dist
@@ -38,7 +38,7 @@ jobs:
     permissions:
       pages: write
       id-token: write
-    enviroment:
+    environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
